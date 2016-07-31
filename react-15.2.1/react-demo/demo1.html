@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/babel">
+
+    var HelloWorld = React.createClass({
+
+
+        doThings : function () {
+           this.props.Children =9;
+
+        },
+        render: function () {
+
+            return (
+                    <div>
+                        What To Do?
+                        <input type="text" id="info"/>
+                        <input type="button" id="tip" onClick="doThings" value="提交" />
+                        {
+                            this.state.info = document.getElementById('info');
+                        }
+                        <p>{this.state.info}</p>
+                    </div>);
+
+        }
+    });
+
+    ReactDOM.render(<HelloWorld />,
+            document.getElementById("container"));
+
+</script>
+</body>
+</html>
