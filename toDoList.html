@@ -139,6 +139,99 @@
       </div>
     }
   });
+  var Header = React.createClass({
+    render: function () {
+      return <header className="header">
+        <h1>{this.props.title}</h1>
+      </header>
+    }
+  });
+  var TodoList = React.createClass({
+    render: function () {
+      let that = this;
+      return <ul className="todo-list">
+        {this.props.todos.map(function (todo, i) {
+          switch (that.props.type) {
+            case 'all' :
+              return <TodoItem data={todo} key={i}
+                               delTask={that.props.delTask(i)}
+                               comTask={that.props.comTask(i)}/>;
+            case 'active' :
+              if (!todo.completed) {
+                return <TodoItem data={todo} key={i}
+                                 delTask={that.props.delTask(i)}
+                                 comTask={that.props.comTask(i)}/>
+              }
+              break;
+            case 'completed' :
+              if (todo.completed) {
+                return <TodoItem data={todo} key={i}
+                                 delTask={that.props.delTask(i)}
+                                 comTask={that.props.comTask(i)}/>
+              }
+              break;
+            default :
+              break;
+          }
+
+
+        })}
+      </ul>
+    }
+  });
+  var TodoItem = React.createClass({
+
+    render: function () {
+      var todo = this.props.data;
+      let className = todo.completed ? "completed" : '';
+
+      return <li className={className}>
+        <div className="view">
+          <input className="toggle" type="checkbox"
+                 onClick={this.props.comTask}
+                 checked={todo.completed}/>
+          <label> {todo.title} </label>
+        </div>
+      </li>
+    }
+  });
+  var Footer = React.createClass({
+
+    render: function () {
+      let type = ['', '', ''];
+      switch (this.props.type) {
+        case 'active':
+          type[1] = 'selected';
+          break;
+        case 'completed':
+          type[2] = 'selected';
+          break;
+        default :
+          type[0] = 'selected';
+          break;
+      }
+
+      return <footer className="footer">
+        <span className="todo-count">
+          <strong> {this.props.lefted} </strong>
+          <span></span>
+          <span>items</span>
+          <span>left</span>
+        </span>
+
+        <br/>
+        <a href="#" className={type[0]} onClick={this.props.switchType.bind(null, 'all')}>All</a>
+        <a href="#active" className={type[1]} onClick={this.props.switchType.bind(null, 'active')}>Active</a>
+        <a href="#completed" className={type[2]} onClick={this.props.switchType.bind(null, 'completed')}>
+          Completed
+        </a>
+
+        <button className="clear-completed" onClick={this.props.clearCom}>
+          Clear completed
+        </button>
+      </footer>
+    }
+  });
   ReactDOM.render(
     <App />,
     document.getElementById('AppRoot')
